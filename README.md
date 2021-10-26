@@ -1,2 +1,0 @@
-# WebShop
-clean architecture 
