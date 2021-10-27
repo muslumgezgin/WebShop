@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WebShop.Infrastructure;
+using WepShop.Application;
 
 namespace WebShop.Api
 {
@@ -26,6 +28,8 @@ namespace WebShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationRegistration();
+            services.AddPersistenceRegistration(Configuration);
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
