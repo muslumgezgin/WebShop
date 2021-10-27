@@ -27,4 +27,8 @@
       <ProjectReference Include="..\WepShop.Domain\WepShop.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Features\Querries\BrandQueries" />
+    </ItemGroup>
+
 </Project>
