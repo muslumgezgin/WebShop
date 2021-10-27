@@ -6,6 +6,8 @@ namespace WepShop.Application.Mappings
     {
         public BrandMapper()
         {
+            CreateMap<Domain.Entities.Brand, Dtos.BrandDto>().ReverseMap();
+            
         }
         
     }
