@@ -14,13 +14,13 @@ namespace WepShop.Application.Features.Commands.BrandCommands
 {
     public class PatchBrandCommandHandler:IRequestHandler<PatchBrandCommand, Response<Unit>>
     {
-        readonly IMapper mapper;
-        readonly IUnitOfWork unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PatchBrandCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
+            this._mapper = mapper;
+            this._unitOfWork = unitOfWork;
         }
         public async Task<Response<Unit>> Handle(PatchBrandCommand request, CancellationToken cancellationToken)
         {
@@ -29,13 +29,13 @@ namespace WepShop.Application.Features.Commands.BrandCommands
                 throw new BadRequestException($"{nameof(PatchBrandCommand)} request is null");
             }
 
-            Brand entity = await this.unitOfWork._brandRepository.GetByIdAsync(request.Id);
+            Brand entity = await this._unitOfWork._brandRepository.GetByIdAsync(request.Id);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Brand), request.Id);
             }
 
-            BrandDto dto = this.mapper.Map<BrandDto>(entity);
+            BrandDto dto = this._mapper.Map<BrandDto>(entity);
             
             request.patchDto.ApplyTo(dto, request.modelState);
 
@@ -44,9 +44,9 @@ namespace WepShop.Application.Features.Commands.BrandCommands
                 throw new BadRequestException($"{nameof(Brand)} Model path error");
             }
 
-            entity = this.mapper.Map<Brand>(dto);
-            await this.unitOfWork._brandRepository.UpdateAsync(entity);
-            await this.unitOfWork.CommitAsync();
+            entity = this._mapper.Map<Brand>(dto);
+            await this._unitOfWork._brandRepository.UpdateAsync(entity);
+            await this._unitOfWork.CommitAsync();
 
             return new Response<Unit>(Unit.Value);
         }

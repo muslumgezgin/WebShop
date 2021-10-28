@@ -13,13 +13,13 @@ namespace WepShop.Application.Features.Commands.BrandCommands
 {
     public class CreateBrandCommandHandler: IRequestHandler<CreateBrandCommand,Response<BrandDto>>
     {
-        private IMapper mapper;
-        private IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public CreateBrandCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
         {
             this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
+            this._unitOfWork = unitOfWork;
         }
 
         public async Task<Response<BrandDto>> Handle(CreateBrandCommand request, CancellationToken cancellationToken)
@@ -31,14 +31,14 @@ namespace WepShop.Application.Features.Commands.BrandCommands
 
             Brand entity = null;
 
-            using (var transaction = await  this.unitOfWork.BeginTransactionAsync())
+            using (var transaction = await  this._unitOfWork.BeginTransactionAsync())
             {
                 try
                 {
                     var newBrand = this.mapper.Map<Brand>(request);
-                    entity = await this.unitOfWork._brandRepository.AddAsync(newBrand);
+                    entity = await this._unitOfWork._brandRepository.AddAsync(newBrand);
 
-                    await this.unitOfWork.CommitAsync();
+                    await this._unitOfWork.CommitAsync();
 
                     await transaction.CommitAsync(cancellationToken);
                 }

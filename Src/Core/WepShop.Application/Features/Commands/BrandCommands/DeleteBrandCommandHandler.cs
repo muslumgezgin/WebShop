@@ -12,13 +12,13 @@ namespace WepShop.Application.Features.Commands.BrandCommands
 {
     public class DeleteBrandCommandHandler:IRequestHandler<DeleteBrandCommand,Response<Unit>>
     {
-        IMapper mapper;
-        IUnitOfWork unitOfWork;
+        private readonly  IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
 
         public DeleteBrandCommandHandler(IMapper mapper, IUnitOfWork unitOfWork)
         {
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
+            this._mapper = mapper;
+            this._unitOfWork = unitOfWork;
         }
         
         public async  Task<Response<Unit>> Handle(DeleteBrandCommand request, CancellationToken cancellationToken)
@@ -28,15 +28,15 @@ namespace WepShop.Application.Features.Commands.BrandCommands
                 throw new BadRequestException($"{nameof(DeleteBrandCommand)} request is null");
             }
 
-            Brand entity = await this.unitOfWork._brandRepository.GetByIdAsync(request.Id);
+            Brand entity = await this._unitOfWork._brandRepository.GetByIdAsync(request.Id);
 
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Brand), request.Id);
             }
 
-            await this.unitOfWork._brandRepository.DeleteAsync(entity);
-            await this.unitOfWork.CommitAsync();
+            await this._unitOfWork._brandRepository.DeleteAsync(entity);
+            await this._unitOfWork.CommitAsync();
 
             return new Response<Unit>(Unit.Value);
         }

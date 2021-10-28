@@ -30,6 +30,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Features\Commands\ProductCommands" />
+      <Folder Include="Features\Commands\SupplierCommands" />
       <Folder Include="Features\Querries\BrandQueries" />
     </ItemGroup>
 

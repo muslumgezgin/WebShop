@@ -11,13 +11,12 @@ namespace WepShop.Application.Features.Commands.BrandCommands
 {
     public class UpdateBrandCommandHandler :IRequestHandler<UpdateBrandCommand,Response<Unit>>
     {
-        
-        IMapper mapper;
-        IUnitOfWork unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
         public UpdateBrandCommandHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            this.mapper = mapper;
-            this.unitOfWork = unitOfWork;
+            this._mapper = mapper;
+            this._unitOfWork = unitOfWork;
         }
         public async Task<Response<Unit>> Handle(UpdateBrandCommand request, CancellationToken cancellationToken)
         {
@@ -26,14 +25,14 @@ namespace WepShop.Application.Features.Commands.BrandCommands
                 throw new BadRequestException($"{nameof(UpdateBrandCommand)} request is null");
             }
 
-            Brand entity = await this.unitOfWork._brandRepository.GetByIdAsync(request.Id);
+            Brand entity = await this._unitOfWork._brandRepository.GetByIdAsync(request.Id);
             if (entity == null)
             {
                 throw new NotFoundException(nameof(Brand), request.Id);
             }
 
-            await this.unitOfWork._brandRepository.UpdateAsync(this.mapper.Map<Brand>(request));
-            await this.unitOfWork.CommitAsync();
+            await this._unitOfWork._brandRepository.UpdateAsync(this._mapper.Map<Brand>(request));
+            await this._unitOfWork.CommitAsync();
             return new Response<Unit>(Unit.Value);
         }
     }
