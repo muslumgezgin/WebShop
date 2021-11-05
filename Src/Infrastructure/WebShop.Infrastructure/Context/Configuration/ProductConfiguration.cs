@@ -20,7 +20,7 @@ namespace WebShop.Infrastructure.Context.Configuration
                 .HasColumnName("brand_model_id")
                 .IsRequired();
             
-            builder.Property(s => s.supplerId)
+            builder.Property(s => s.supplierId)
                 .HasColumnName("supplier_id")
                 .IsRequired();
             builder.Property(s => s.productCode)

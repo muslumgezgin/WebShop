@@ -2,12 +2,18 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WepShop.Application.Interfaces.Context;
 using WepShop.Domain.Common;
+using WepShop.Domain.Entities;
 
 namespace WebShop.Infrastructure.Context
 {
-    public class ApplicationDBContext : DbContext
+    public class ApplicationDBContext : DbContext,IApplicationDbContext
     {
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<BrandModel> BrandModels { get; set; }
 
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : base(options)
         {

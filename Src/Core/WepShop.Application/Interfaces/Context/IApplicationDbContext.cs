@@ -10,7 +10,8 @@ namespace WepShop.Application.Interfaces.Context
     {
         public DbSet<Product> Products { get; set; }
         
-        public DbSet<Brand> B { get; set; }
+        public DbSet<Brand> Brands{ get; set; }
+        DbSet<Supplier> Suppliers { get; set; }
         
         public DbSet<BrandModel> BrandModels { get; set; }
         

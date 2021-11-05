@@ -5,7 +5,7 @@ namespace WepShop.Domain.Entities
 {
     public class Product : AuditableEntity
     {
-        public Guid supplerId { get; set; }
+        public Guid supplierId { get; set; }
         
         public Guid brandModelId { get; set; }
         

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +33,17 @@ namespace WebShop.Api
         {
             services.AddApplicationRegistration();
             services.AddPersistenceRegistration(Configuration);
-            services.AddControllers();
+            services.AddControllers()
+                .AddNewtonsoftJson();
+            services.AddHealthChecks();
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebShop.Api", Version = "v1" });
+
+                var xmlFile = $" {Assembly.GetCallingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
@@ -47,8 +57,17 @@ namespace WebShop.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebShop.Api v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseHealthChecks("/api/healthcheck",
+                new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
+                {
+                    ResponseWriter = async (context, report) =>
+                    {
+                        await context.Response.WriteAsync("OK");
+                    }
 
+                });
+            app.UseHttpsRedirection();
+            
             app.UseRouting();
 
             app.UseAuthorization();
