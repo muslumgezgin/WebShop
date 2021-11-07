@@ -39,4 +39,23 @@ namespace WepShop.Application.Wrappers
         }
         
     }
+    public class Response : IResponse
+    {
+        public bool Succeeded { get; set; } = false;
+
+        public string FailureType { get; set; }
+        public IDictionary<string, string[]> Failures { get; }
+
+        public Response(bool success)
+        {
+            this.Succeeded = success;
+        }
+
+        public Response(string failureType, IDictionary<string, string[]> failures)
+        {
+            this.Succeeded = false;
+            this.Failures = failures;
+            this.FailureType = failureType;
+        }
+    }
 }

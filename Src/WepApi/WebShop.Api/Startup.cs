@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WebShop.Api.Middlewares;
 using WebShop.Infrastructure;
 using WepShop.Application;
 
@@ -57,6 +58,7 @@ namespace WebShop.Api
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebShop.Api v1"));
             }
 
+            app.UseCustomExeptionHandler();
             app.UseHealthChecks("/api/healthcheck",
                 new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions()
                 {
@@ -67,7 +69,8 @@ namespace WebShop.Api
 
                 });
             app.UseHttpsRedirection();
-            
+            app.UseAntiXssMiddleware();
+            app.UseAntiXss2Middleware();
             app.UseRouting();
 
             app.UseAuthorization();
