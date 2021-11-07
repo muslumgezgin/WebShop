@@ -5,6 +5,7 @@ using AutoMapper;
 using MediatR;
 using WepShop.Application.Behaviours;
 using WepShop.Application.Dtos;
+using WepShop.Application.Exceptions;
 using WepShop.Application.Interfaces.Repository.Base;
 using WepShop.Application.Wrappers;
 using WepShop.Domain.Entities;

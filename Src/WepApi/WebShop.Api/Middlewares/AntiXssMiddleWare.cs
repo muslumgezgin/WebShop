@@ -5,6 +5,7 @@ using Ganss.XSS;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using WepShop.Application.Behaviours;
+using WepShop.Application.Exceptions;
 
 namespace WebShop.Api.Middlewares
 {
